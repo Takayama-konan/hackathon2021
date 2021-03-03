@@ -1,2 +1,2 @@
-# hackathon2021
+# Hackathon2021
 Hot pepper Walk!
