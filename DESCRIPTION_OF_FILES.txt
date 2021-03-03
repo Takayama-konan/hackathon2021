@@ -29,6 +29,9 @@
 <Scene>
 → StateManagerで遷移されるシーン
 
+･InitialScene
+→ ゲームをスタートすると最初に表示される画面
+
 ・HelpScene
 → 操作方法画面
 
