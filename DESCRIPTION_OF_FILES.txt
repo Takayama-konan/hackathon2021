@@ -1,0 +1,73 @@
+//このファイルは？
+//ファイルの説明及びコーディング規則について
+
+■ ファイルの簡単な説明
+合計16ファイル
+2021/03/01 
+
+
+<run file>
+→ 実行する必要があるファイル
+
+・run
+→ 実行すると色々といいことが起きるかも
+
+
+<Manager>
+→ オブジェクトを実行するファイル，オブジェクト達を管理することが目的
+
+・StateManager
+→ 画面遷移をマネージメントする
+
+・CommandManager
+→ コマンドを押したり引いたりすることを感知する
+
+・SaveAndLoadManager
+→ セーブやロードするマネジメント
+
+
+<Scene>
+→ StateManagerで遷移されるシーン
+
+・HelpScene
+→ 操作方法画面
+
+・MenuScene
+→ メニュー画面
+
+・EquipmentScene
+→ 操作画面
+
+・GachaScene
+→ ガチャ画面
+
+・PlayScene
+→ 実際にプレイする画面
+
+・StageSelectScene
+→ ステージ選択画面
+
+・GameOverScene
+→ ゲームオーバーする画面
+
+・BattleScene
+→ バトル画面
+
+・GoToEatScene
+→ ガチャ画面
+
+
+<Other>
+・DrawDisplay
+→ ディスプレイする方法とかを記したファイル
+
+・OperateDB
+→ データベースを操作する方法とかを記したファイル
+
+・CreateMaze
+→ 迷路作成ファイル
+
+
+
+
+
