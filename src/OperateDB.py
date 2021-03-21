@@ -63,7 +63,7 @@ class OperatingDB():
         self.conn = None
 
 
-if __name == "__main__":
+if __name__ == "__main__":
     sqlite_path = 'TEST.db'  # DBパス
 
     delete_flag = True  # DBを初期化する場合

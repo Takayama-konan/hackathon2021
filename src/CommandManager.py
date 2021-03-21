@@ -7,6 +7,15 @@ ASCII CODE https://theasciicode.com.ar/ascii-control-characters/escape-ascii-cod
 from msvcrt import getch
 
 
+# キー設定
+UP = ["w"]
+DOWN = ["s"]
+LEFT = ["d"]
+RIGHT = ["a"]
+ENTER = ["Enter"]
+ESC = ["Esc"]
+
+
 class CommandManager:
     def __init__(self):
         """
@@ -33,7 +42,7 @@ class CommandManager:
             key name， e.g. [e]キーを押されたときは"e"と返る．
             変数: setKeyで登録されていない場合はNoneが返る．
         """
-        key = ord(getch()) #文字をUnicodeに変換
+        key = ord(getch())  # 文字をUnicodeに変換
 
         if key in self.setKey:
             return self.setKey[key]
@@ -41,5 +50,6 @@ class CommandManager:
             print("Warning: setKeyで登録されていないキータイプです．(CommandManager.py, pressKey())")
             return None
 
+
 if __name__ == "__main__":
-    print(CommandManager().pressKey()) #pressKeyでinputと同じく止まる．一文字のみのキーを感知する．
+    print(CommandManager().pressKey())  # pressKeyでinputと同じく止まる．一文字のみのキーを感知する．

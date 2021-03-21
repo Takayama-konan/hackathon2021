@@ -1,6 +1,9 @@
 # 表示関連ファイル
 # 関数Ver
 
+import os
+
+
 def initialDiplay(disp_data, line_end="\n", end="\n"):
     """
     初期部分を表示
@@ -35,6 +38,11 @@ def commandDisplay(disp_data, command_number=0, cursol="▶ ", line_end="\n", en
         print(end=line_end)
 
     print(end=end)  # 最後に出力するもの
+
+
+def clear():
+    """コンソール上の出力をすべて削除する"""
+    os.system("cls")
 
 
 if __name__ == "__main__":
