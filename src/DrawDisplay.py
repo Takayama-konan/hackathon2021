@@ -1,94 +1,47 @@
-# ディスプレイする方法とかを記したファイル
+# 表示関連ファイル
+# 関数Ver
+
+def initialDiplay(disp_data, line_end="\n", end="\n"):
+    """
+    初期部分を表示
+
+    @param
+        dips_data,list              : 表示するデータ
+        line_end,str,default='\n'   : 1行ごとの終わり文字列
+        end,str,default='\n'        : 最後に出力する文字列
+    """
+    for line in disp_data:
+        print(line, end=line_end)
+
+    print(end=end)  # 最後に出力するもの
 
 
-class DrawDisplay:
-    def __init__(self):
-        pass
+def commandDisplay(disp_data, command_number=0, cursol="▶ ", line_end="\n", end="\n"):
+    """
+    画面描画のコマンド部分
+    @param
+        dips_data,list              : 表示するデータ
+        command_number,int,default=0: コマンド番号
+        cursol,str,default="▶ "     : カーソル
+        line_end,str,default='\n'   : 1行ごとの終わり文字列
+        end,str,default='\n'        : 最後に出力する文字列
+    """
 
-    # 諦観
-    # def depth(self, k):
-    #     # print(k)
-    #     if not k:
-    #         print("not k", k)
-    #         return 0
-    #     else:
-    #         if isinstance(k, list):
-    #             # print(k,end="")
-    #             print()
-    #             # return 1 + max(self.depth(i) for i in k)
-    #             # print([self.depth(i) for i in k])
-    #             return max(self.depth(i) for i in k)
-    #         else:
-    #             print(k, end="")
-    #             return k
+    for command_num, line in enumerate(disp_data):
+        if command_num == command_number:
+            print("{}{}".format(cursol, line), end="")
+        else:
+            print(line, end="")
+        print(end=line_end)
 
-    # def initialDiplay(self, disp_data, end="\n", line_end="\n"):
-    #     """
-    #     初期部分を表示
-
-    #     @param
-    #         dips_data,list          : 表示するデータ
-    #         end,str,default='\n'    : 最後に出力する文字列
-    #     """
-    #     for line in disp_data:
-    #         print(line, end=end)
-
-    #     print(end=line_end)  # 最後に出力するもの
-
-    # def commandDisplay(self, disp_data, end="\n", line_end="\n"):
-    #     """
-    #     画面描画のコマンド部分
-    #     """
-    #     self.cursol = "▶ "
-    #     self.command_number = 0
-
-    #     for command_num, line in enumerate(disp_data):
-    #         if command_num == self.command_number:
-    #             print("{}{}".format(self.cursol, line))
-    #         else:
-    #             print(line)
-
-    #     print(end=line_end)  # 最後に出力するもの
-
-    end = "\n"
-    line_end = ""
-    initials = [""]
-    commands = [""]
-    cursol = "▶ "
-    command_number = 0
-
-    def initialDiplay(self):
-        """
-        初期部分を表示
-        """
-        for line in self.initials:
-            print(line, end=self.end)
-
-        print(end=self.line_end)  # 最後に出力するもの
-
-    def commandDisplay(self):
-        """
-        画面描画のコマンド部分
-        """
-
-        for command_num, line in enumerate(self.commands):
-            if command_num == self.command_number:
-                print("{}{}".format(self.cursol, line))
-            else:
-                print(line)
-
-        print(end=self.line_end)  # 最後に出力するもの
+    print(end=end)  # 最後に出力するもの
 
 
-if __name__ == '__main__':
-    drawDisplay = DrawDisplay()
+if __name__ == "__main__":
+    initials = ["========= START ==========",
+                "DEMO RPG!", ""]
+    commands = ["command A", "command B", "command C"]
 
-    drawDisplay.initials = ["========= START ==========", "DEMO RPG!"]
-    drawDisplay.commands = ["command A", "command B", "command C"]
-
-    drawDisplay.cursol = "▶ "
-    drawDisplay.command_number = 1
-    drawDisplay.line_end = "\n"
-
-    drawDisplay.initialDiplay()
-    drawDisplay.commandDisplay()
+    initialDiplay(initials, line_end="\n", end="------- command -------\n")
+    commandDisplay(commands, command_number=0,
+                   cursol="▶ ", line_end="\n", end="\n")
