@@ -1,1 +1,190 @@
 # 実際にプレイするダンジョンの画面
+import CommandManager
+
+
+class Walking(object):
+    """
+    >>Walking
+    マップ作成と歩く関係のクラス
+
+    >>メンバ変数
+        x,y: 現在位置
+        map_: マップ 2次元リストで表す
+        up,down.left,right: 上下左右の移動を表す『コマンド』
+        map_index: マップインデクスを表す辞書の定義
+        next_up,next_down,next_left,next_right: 一歩先の上下左右の移動を表す『マップインデクス』(int)
+        now_pos_index: 現在位置の状態
+        command_draw: コマンド描画
+    """
+
+    def __init__(self, initial_x=1, initial_y=1, up="w", down="s", left="a", right="d", my_command_draw=None):
+
+        ##初期位置##
+        self.x = initial_x
+        self.y = initial_y
+
+        ##上下左右のコマンド定義##
+        self.up = up
+        self.down = down
+        self.left = left
+        self.right = right
+
+        #禁止インデクス#
+        self.forbidden = list()
+
+        ##コマンドの描画##
+        # self.command_draw = f"""
+        #         {up}
+        #         ↑
+        #         w
+        #         |
+        # {left} ← a - YOU - d → {right}
+        #         |
+        #         s
+        #         ↓
+        #         {down}
+
+        # """ if my_command_draw == None else my_command_draw
+
+    def _mapping(self, x, y):
+
+        ##自分のいる位置から上下左右のMAP情報を取得##
+        self.next_up = self.map_[self.y-1][self.x]
+        self.next_down = self.map_[self.y+1][self.x]
+        self.next_left = self.map_[self.y][self.x-1]
+        self.next_right = self.map_[self.y][self.x+1]
+
+        result = []
+        for pos in [self.next_up, self.next_down, self.next_left, self.next_right]:
+            result.extend(self.map_index[pos])
+
+        return result
+
+    def draw_walking(self):
+
+        up, down, left, right = self._mapping(self.x, self.y)
+
+        self.command_draw = f"""
+                  {up}
+                  ↑
+                  w
+                  |
+        {left} ← a - YOU - d → {right}
+                  |
+                  s
+                  ↓
+                  {down}
+
+        """
+        print(self.command_draw)
+
+    def _waking_check_in_area(self, x, y):
+        length_list = [len(idx) for idx in self.map_]  # マップの最大値を測るリスト
+        max_x, max_y = length_list[0], len(length_list)  # マップの最大値
+
+        """
+        index外参照を防ぐため，必ずマップの全体1マスを見ないようにしている
+
+        0 <= x <= max_x-1
+        とする場合は，必ず移動不可のオブジェクトで周りを囲むこと
+        """
+        if 1 <= x <= max_x-2 and 1 <= y <= max_y-2:  # MAP内にいるか
+            check = True
+        else:
+            check = False
+        return check
+
+    def _walking_forbidden(self, y, x):
+        """
+        移動禁止かどうか
+        """
+        if self.map_[y][x] in self.forbidden:
+            return True  # 移動禁止
+
+        return False  # 移動可能
+
+    def walk(self, command):
+
+        x_, y_ = self.x, self.y
+
+        ##移動後代入##
+        if command == self.up:
+            y_ = self.y-1
+        elif command == self.down:
+            y_ = self.y+1
+        elif command == self.left:
+            x_ = self.x-1
+        elif command == self.right:
+            x_ = self.x+1
+
+        if (not self._waking_check_in_area(x_, y_) or  # 移動後がMAP外だったら
+                self._walking_forbidden(y_, x_)):  # 移動禁止ならば
+            x_, y_ = self.x, self.y  # 移動せず
+
+        ##移動の確定##
+        self.x = x_
+        self.y = y_
+
+        ##移動の表示##
+        self.draw_walking()
+
+        ##現在値の番号取得##
+        self.now_pos_index = self.map_[self.y][self.x]
+
+    def change_zero_on_myself(self):
+        self.map_[self.y][self.x] = 0
+
+
+def run():
+    pass
+
+
+if __name__ == '__main__':
+    """
+    MAPは行列で表す
+
+    正方行列でなくても可
+    3x4，5x5など
+
+    MAP作成の際の注意
+        必ず移動不可のオブジェクトで周りを囲むこと
+    """
+    map_ = [
+        [1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 1, 2, 1],
+        [1, 0, 2, 1, 0, 1],
+        [1, 0, 0, 0, 2, 1],
+        [1, 1, 1, 1, 1, 1],
+    ]
+
+    """
+    MAPでの数字の定義は辞書型で表す
+        {マップインデクス:表示名}
+    """
+    map_index = {0: "床", 1: "壁", 2: "草"}
+
+    walking = Walking()  # マップ関係オブジェクト
+    walking.map_ = map_
+    walking.map_index = map_index
+    walking.forbidden = [1]
+
+    command = ""
+
+    walking.walk(command)
+    while(True):
+
+        command = CommandManager.CommandManager().pressKey()
+        if command in CommandManager.LEFT:
+            walking.walk("a")
+        elif command in CommandManager.RIGHT:
+            walking.walk("d")
+        elif command in CommandManager.UP:
+            walking.walk("w")
+        elif command in CommandManager.DOWN:
+            walking.walk("s")
+        elif command in CommandManager.ESC:
+            exit()
+
+        walking.walk(command)
+        print(f"x:{walking.x} , y:{walking.y}")
+        print(f"現在は {map_index[walking.now_pos_index]} にいます")

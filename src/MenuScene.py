@@ -3,6 +3,8 @@
 #ユーザ定義#
 import DrawDisplay
 import CommandManager
+import StageSelectScene
+import HelpScene
 
 
 def run():
@@ -20,7 +22,6 @@ def run():
         """編成""",
         """ガチャ""",
         """ヘルプ""",
-        """タイトルへ戻る"""
     ]
 
     DrawDisplay.commandDisplay(command_line, command_number=command_number,
@@ -31,15 +32,26 @@ def run():
         key = CommandManager.CommandManager().pressKey()  # 入力キー取得
         DrawDisplay.clear()  # 画面を消す
 
+        #コマンド操作#
+        if key in CommandManager.ENTER:
+            print(command_number)
+            if command_number == 0:  # ステージ選択
+                StageSelectScene.run()
+                DrawDisplay.clear()
+            elif command_number == 1:  # 編成
+                pass
+            elif command_number == 2:  # ガチャ
+                pass
+            elif command_number == 3:  # ヘルプ
+                HelpScene.run()
+                DrawDisplay.clear()
+
+        # 描画
         DrawDisplay.initialDiplay([
             "######### メインメニュー #########",
             ""
         ])
 
-        #コマンド操作#
-        if key in CommandManager.ENTER:
-            print("OK")
-            break
         if key in CommandManager.UP:  # 上キー
             command_number -= 1
         if key in CommandManager.DOWN:  # 下キー
