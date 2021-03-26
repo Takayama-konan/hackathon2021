@@ -1,6 +1,5 @@
 # 実際にプレイするダンジョンの画面
 import CommandManager
-import CreateMaze
 import DrawDisplay
 
 
@@ -137,27 +136,26 @@ class Walking(object):
         self.map_[self.y][self.x] = 0
 
 
-def run(mazeObj):
+def run(maze):
     """
     MAPでの数字の定義は辞書型で表す
         {マップインデクス:表示名}
     """
     walking = Walking()  # マップ関係オブジェクト
-    walking.map_ = mazeObj.maze  # マップをオブジェクトに入れる
-    walking.map_index = mazeObj.map_index  # MAPインデクス定義をオブジェクトに入れる
+    walking.map_ = maze.maze  # マップをオブジェクトに入れる
+    walking.map_index = maze.map_index  # MAPインデクス定義をオブジェクトに入れる
     walking.forbidden = [1]  # 移動不可インデクス定義
 
     command = ""
     DrawDisplay.clear()
 
     walking.walk(command)
-    DrawDisplay.initialDiplay([f"x:{walking.x} , y:{walking.y}"])
+    # DrawDisplay.initialDiplay([f"x:{walking.x} , y:{walking.y}"])
     DrawDisplay.initialDiplay(
         [f"現在は {maze.map_index[walking.now_pos_index]} にいます"])
 
     while(True):
         command = CommandManager.CommandManager().pressKey()
-        DrawDisplay.clear()
         if command in CommandManager.LEFT:
             walking.walk("a")
         elif command in CommandManager.RIGHT:
@@ -168,6 +166,11 @@ def run(mazeObj):
             walking.walk("s")
         elif command in CommandManager.ESC:
             exit()
+        else:
+            DrawDisplay.initialDiplay(["無効なキーです"])
+            continue
+
+        DrawDisplay.clear()
 
         # DrawDisplay.initialDiplay([f"x:{walking.x} , y:{walking.y}"]) #デバッグ:現在位置を表示
         DrawDisplay.initialDiplay(
@@ -176,6 +179,7 @@ def run(mazeObj):
 
 if __name__ == '__main__':
     """迷路生成と定義"""
+    import CreateMaze
     maze = CreateMaze.CreateMaze(12, 12)  # 行列
     maze.make_maze()  # 迷路生成
     maze.print_maze()  # 迷路出力
@@ -183,7 +187,7 @@ if __name__ == '__main__':
     # maze.set_enemy(3, 15, path_index=0)  # 敵番号3で15体配置
     maze.map_index = {0: "床", 1: "壁", 2: "草"}  # MAPインデクス定義
 
-    run(mazeObj=maze)  # 迷路作成オブジェクトを引数に
+    run(maze=maze)  # 迷路作成オブジェクトを引数に
 
 
 # if __name__ == '__main__':
