@@ -1,6 +1,7 @@
 # 実際にプレイするダンジョンの画面
 import CommandManager
 import CreateMaze
+import DrawDisplay
 
 
 class Walking(object):
@@ -141,21 +142,22 @@ def run(mazeObj):
     MAPでの数字の定義は辞書型で表す
         {マップインデクス:表示名}
     """
-
     walking = Walking()  # マップ関係オブジェクト
     walking.map_ = mazeObj.maze  # マップをオブジェクトに入れる
     walking.map_index = mazeObj.map_index  # MAPインデクス定義をオブジェクトに入れる
     walking.forbidden = [1]  # 移動不可インデクス定義
 
     command = ""
+    DrawDisplay.clear()
 
     walking.walk(command)
-    print(f"x:{walking.x} , y:{walking.y}")
-    print(f"現在は {maze.map_index[walking.now_pos_index]} にいます")
+    DrawDisplay.initialDiplay([f"x:{walking.x} , y:{walking.y}"])
+    DrawDisplay.initialDiplay(
+        [f"現在は {maze.map_index[walking.now_pos_index]} にいます"])
 
     while(True):
-
         command = CommandManager.CommandManager().pressKey()
+        DrawDisplay.clear()
         if command in CommandManager.LEFT:
             walking.walk("a")
         elif command in CommandManager.RIGHT:
@@ -167,8 +169,9 @@ def run(mazeObj):
         elif command in CommandManager.ESC:
             exit()
 
-        print(f"x:{walking.x} , y:{walking.y}")
-        print(f"現在は {maze.map_index[walking.now_pos_index]} にいます")
+        # DrawDisplay.initialDiplay([f"x:{walking.x} , y:{walking.y}"]) #デバッグ:現在位置を表示
+        DrawDisplay.initialDiplay(
+            [f"現在は {maze.map_index[walking.now_pos_index]} にいます"])
 
 
 if __name__ == '__main__':
