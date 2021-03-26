@@ -15,6 +15,7 @@ import random
 
 class CreateMaze():
     """ 壁伸ばし方で迷路を作る。"""
+    map_index=dict()
 
     def __init__(self, width, height):
         """ 迷路全体を構成する2次元配列、迷路の外周を壁とし、それ以外を通路とする。"""

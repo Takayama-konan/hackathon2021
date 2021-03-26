@@ -136,51 +136,22 @@ class Walking(object):
         self.map_[self.y][self.x] = 0
 
 
-def run():
-    pass
-
-
-if __name__ == '__main__':
-    """
-    MAPは行列で表す
-
-    正方行列でなくても可
-    3x4，5x5など
-
-    MAP作成の際の注意
-        必ず移動不可のオブジェクトで周りを囲むこと
-    """
-    map_ = [
-        [1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 1, 2, 1],
-        [1, 0, 2, 1, 0, 1],
-        [1, 0, 0, 0, 2, 1],
-        [1, 1, 1, 1, 1, 1],
-    ]
-    # maze = CreateMaze.CreateMaze(12, 12)  # 行列
-    # maze.make_maze()  # 迷路生成
-    # maze.print_maze()  # 迷路出力
-    # maze.set_enemy(2, 10, path_index=0)  # 敵番号2で10体配置
-    # # maze.set_enemy(3, 15, path_index=0)  # 敵番号3で15体配置
-
-    # map_=maze.maze
-
+def run(mazeObj):
     """
     MAPでの数字の定義は辞書型で表す
         {マップインデクス:表示名}
     """
-    map_index = {0: "床", 1: "壁", 2: "草"}  # MAPインデクス定義
 
     walking = Walking()  # マップ関係オブジェクト
-    walking.map_ = map_  # マップをオブジェクトに入れる
-    walking.map_index = map_index  # MAPインデクス定義をオブジェクトに入れる
+    walking.map_ = mazeObj.maze  # マップをオブジェクトに入れる
+    walking.map_index = mazeObj.map_index  # MAPインデクス定義をオブジェクトに入れる
     walking.forbidden = [1]  # 移動不可インデクス定義
 
     command = ""
 
     walking.walk(command)
     print(f"x:{walking.x} , y:{walking.y}")
-    print(f"現在は {map_index[walking.now_pos_index]} にいます")
+    print(f"現在は {maze.map_index[walking.now_pos_index]} にいます")
 
     while(True):
 
@@ -196,6 +167,77 @@ if __name__ == '__main__':
         elif command in CommandManager.ESC:
             exit()
 
-        walking.walk(command)
         print(f"x:{walking.x} , y:{walking.y}")
-        print(f"現在は {map_index[walking.now_pos_index]} にいます")
+        print(f"現在は {maze.map_index[walking.now_pos_index]} にいます")
+
+
+if __name__ == '__main__':
+    """迷路生成と定義"""
+    maze = CreateMaze.CreateMaze(12, 12)  # 行列
+    maze.make_maze()  # 迷路生成
+    maze.print_maze()  # 迷路出力
+    maze.set_enemy(2, 10, path_index=0)  # 敵番号2で10体配置
+    # maze.set_enemy(3, 15, path_index=0)  # 敵番号3で15体配置
+    maze.map_index = {0: "床", 1: "壁", 2: "草"}  # MAPインデクス定義
+
+    run(mazeObj=maze)  # 迷路作成オブジェクトを引数に
+
+
+# if __name__ == '__main__':
+#     """
+#     MAPは行列で表す
+
+#     正方行列でなくても可
+#     3x4，5x5など
+
+#     MAP作成の際の注意
+#         必ず移動不可のオブジェクトで周りを囲むこと
+#     """
+#     # map_ = [
+#     #     [1, 1, 1, 1, 1, 1],
+#     #     [1, 0, 0, 1, 2, 1],
+#     #     [1, 0, 2, 1, 0, 1],
+#     #     [1, 0, 0, 0, 2, 1],
+#     #     [1, 1, 1, 1, 1, 1],
+#     # ]
+#     maze = CreateMaze.CreateMaze(12, 12)  # 行列
+#     maze.make_maze()  # 迷路生成
+#     maze.print_maze()  # 迷路出力
+#     maze.set_enemy(2, 10, path_index=0)  # 敵番号2で10体配置
+#     # maze.set_enemy(3, 15, path_index=0)  # 敵番号3で15体配置
+
+#     map_=maze.maze
+
+#     """
+#     MAPでの数字の定義は辞書型で表す
+#         {マップインデクス:表示名}
+#     """
+#     map_index = {0: "床", 1: "壁", 2: "草"}  # MAPインデクス定義
+
+#     walking = Walking()  # マップ関係オブジェクト
+#     walking.map_ = map_  # マップをオブジェクトに入れる
+#     walking.map_index = map_index  # MAPインデクス定義をオブジェクトに入れる
+#     walking.forbidden = [1]  # 移動不可インデクス定義
+
+#     command = ""
+
+#     walking.walk(command)
+#     print(f"x:{walking.x} , y:{walking.y}")
+#     print(f"現在は {map_index[walking.now_pos_index]} にいます")
+
+#     while(True):
+
+#         command = CommandManager.CommandManager().pressKey()
+#         if command in CommandManager.LEFT:
+#             walking.walk("a")
+#         elif command in CommandManager.RIGHT:
+#             walking.walk("d")
+#         elif command in CommandManager.UP:
+#             walking.walk("w")
+#         elif command in CommandManager.DOWN:
+#             walking.walk("s")
+#         elif command in CommandManager.ESC:
+#             exit()
+
+#         print(f"x:{walking.x} , y:{walking.y}")
+#         print(f"現在は {map_index[walking.now_pos_index]} にいます")
