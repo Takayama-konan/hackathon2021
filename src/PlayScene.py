@@ -1,5 +1,6 @@
 # 実際にプレイするダンジョンの画面
 import CommandManager
+import CreateMaze
 
 
 class Walking(object):
@@ -94,7 +95,7 @@ class Walking(object):
             check = False
         return check
 
-    def _walking_forbidden(self, y, x):
+    def _walking_forbidden(self, x, y):
         """
         移動禁止かどうか
         """
@@ -118,7 +119,7 @@ class Walking(object):
             x_ = self.x+1
 
         if (not self._waking_check_in_area(x_, y_) or  # 移動後がMAP外だったら
-                self._walking_forbidden(y_, x_)):  # 移動禁止ならば
+                self._walking_forbidden(x_, y_)):  # 移動禁止ならば
             x_, y_ = self.x, self.y  # 移動せず
 
         ##移動の確定##
@@ -156,21 +157,31 @@ if __name__ == '__main__':
         [1, 0, 0, 0, 2, 1],
         [1, 1, 1, 1, 1, 1],
     ]
+    # maze = CreateMaze.CreateMaze(12, 12)  # 行列
+    # maze.make_maze()  # 迷路生成
+    # maze.print_maze()  # 迷路出力
+    # maze.set_enemy(2, 10, path_index=0)  # 敵番号2で10体配置
+    # # maze.set_enemy(3, 15, path_index=0)  # 敵番号3で15体配置
+
+    # map_=maze.maze
 
     """
     MAPでの数字の定義は辞書型で表す
         {マップインデクス:表示名}
     """
-    map_index = {0: "床", 1: "壁", 2: "草"}
+    map_index = {0: "床", 1: "壁", 2: "草"}  # MAPインデクス定義
 
     walking = Walking()  # マップ関係オブジェクト
-    walking.map_ = map_
-    walking.map_index = map_index
-    walking.forbidden = [1]
+    walking.map_ = map_  # マップをオブジェクトに入れる
+    walking.map_index = map_index  # MAPインデクス定義をオブジェクトに入れる
+    walking.forbidden = [1]  # 移動不可インデクス定義
 
     command = ""
 
     walking.walk(command)
+    print(f"x:{walking.x} , y:{walking.y}")
+    print(f"現在は {map_index[walking.now_pos_index]} にいます")
+
     while(True):
 
         command = CommandManager.CommandManager().pressKey()
