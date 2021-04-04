@@ -1,3 +1,8 @@
+"""
+自分のステータスや敵ステータスを
+引数で指定できるように変更 by Takaya
+"""
+
 # バトル画面
 # メニュー画面
 
@@ -6,25 +11,16 @@ import DrawDisplay
 import CommandManager
 import random
 
-my_hp = 89
-my_name = "ﾊﾊｯ"
-waza_1 = "ハイドロポンプ"
-waza_2 = "たいあたり"
-enemy_hp = 600
-enemy_name = "ゆめのくに"
 
-
-def run():
-    global enemy_hp
-    global my_hp
+def run(my_name, my_hp, waza, enemy_hp, enemy_name):
     while enemy_hp > 0:
         DrawDisplay.clear()  # 画面削除
 
         # 描画
         DrawDisplay.initialDiplay([
             "-----------------",
-            "hp : {}".format(my_hp),
-            "name : {}".format(my_name),
+            "{}".format(my_name),
+            "HP : {}".format(my_hp),
             "-----------------",
         ])
 
@@ -42,10 +38,11 @@ def run():
             key = CommandManager.CommandManager().pressKey()  # 入力キー取得
             DrawDisplay.clear()  # 画面を消す
 
+            # 描画
             DrawDisplay.initialDiplay([
                 "-----------------",
-                "hp : {}".format(my_hp),
-                "name : {}".format(my_name),
+                "{}".format(my_name),
+                "HP : {}".format(my_hp),
                 "-----------------",
             ])
 
@@ -81,15 +78,15 @@ def run():
             DrawDisplay.clear()
             DrawDisplay.initialDiplay([
                 "-----------------",
-                "hp : {}".format(my_hp),
-                "name : {}".format(my_name),
+                "{}".format(my_name),
+                "HP : {}".format(my_hp),
                 "-----------------",
                 "どの技でたたかう？",
             ])
 
             command_line = [  # 技選択(一番上に技の変数、HPなど置いてある)
-                """{}""".format(waza_1),
-                """{}""".format(waza_2),
+                """{}""".format(waza[0]),
+                """{}""".format(waza[1]),
             ]
 
             DrawDisplay.commandDisplay(command_line, command_number=command_number,
@@ -102,8 +99,8 @@ def run():
 
                 DrawDisplay.initialDiplay([
                     "-----------------",
-                    "hp : {}".format(my_hp),
-                    "name : {}".format(my_name),
+                    "{}".format(my_name),
+                    "HP : {}".format(my_hp),
                     "-----------------",
                     "どの技でたたかう？",
                 ])
@@ -132,7 +129,7 @@ def run():
             DrawDisplay.clear()  # 画面削除
 
             if command_number == 0:  # ハイドロポンプの処理
-                print("{}は{}をはなった！".format(my_name, waza_1))
+                print("{}は{}をはなった！".format(my_name, waza[0]))
                 a = input()
                 damage = random.randint(100, 120)  # ダメージの下限、上限
                 enemy_hp = enemy_hp - damage
@@ -141,7 +138,7 @@ def run():
                 a = input()
 
             if command_number == 1:  # たいあたりの処理
-                print("{}は{}をはなった！".format(my_name, waza_2))
+                print("{}は{}をはなった！".format(my_name, waza[1]))
                 a = input()
                 damage = random.randint(80, 120)  # ダメージの下限、上限
                 enemy_hp = enemy_hp - damage
@@ -153,4 +150,9 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    my_hp = 89
+    my_name = "ﾊﾊｯ"
+    waza = ["ハイドロポンプ", "たいあたり"]
+    enemy_hp = 600
+    enemy_name = "ゆめのくに"
+    run(my_name, my_hp, waza, enemy_hp, enemy_name)
