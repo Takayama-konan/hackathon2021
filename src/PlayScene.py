@@ -156,6 +156,9 @@ def run(maze):
 
     while(True):
         command = CommandManager.CommandManager().pressKey()
+        
+        DrawDisplay.clear()
+        
         if command in CommandManager.LEFT:
             walking.walk("a")
         elif command in CommandManager.RIGHT:
@@ -170,7 +173,6 @@ def run(maze):
             DrawDisplay.initialDiplay(["無効なキーです"])
             continue
 
-        DrawDisplay.clear()
 
         # DrawDisplay.initialDiplay([f"x:{walking.x} , y:{walking.y}"]) #デバッグ:現在位置を表示
         DrawDisplay.initialDiplay(
