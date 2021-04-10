@@ -7,6 +7,7 @@ import StageSelectScene
 import HelpScene
 import StaffScroll
 
+
 def run():
     DrawDisplay.clear()  # 画面削除
 
@@ -22,7 +23,7 @@ def run():
         """編成""",
         """ガチャ""",
         """ヘルプ""",
-        """スタッフスクロール""",
+        """スタッフロール""",
     ]
 
     DrawDisplay.commandDisplay(command_line, command_number=command_number,

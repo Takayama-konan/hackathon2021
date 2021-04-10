@@ -3,6 +3,7 @@
 
 #ユーザ定義#
 import DrawDisplay
+import CommandManager
 
 
 def run():
@@ -46,7 +47,7 @@ def run():
         elif key in CommandManager.ESC:
             print("Info: ESC終了!(MenuScene, run())")
             return 0
-            
+
     return 1  # 異常終了
 
 
