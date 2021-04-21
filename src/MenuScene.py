@@ -4,6 +4,7 @@
 import DrawDisplay
 import CommandManager
 import StageSelectScene
+import GachaScene
 import HelpScene
 import StaffScroll
 
@@ -43,7 +44,7 @@ def run():
             elif command_number == 1:  # 編成
                 pass
             elif command_number == 2:  # ガチャ
-                pass
+                GachaScene.run()
             elif command_number == 3:  # ヘルプ
                 HelpScene.run()
                 DrawDisplay.clear()
@@ -63,7 +64,7 @@ def run():
             command_number += 1
         elif key in CommandManager.ESC:
             print("Info: ESC終了!(MenuScene, run())")
-            return 0
+            exit(0)
 
         #コマンド#
         if command_number < 0:  # 一番上ならば一番下に
@@ -74,7 +75,7 @@ def run():
         DrawDisplay.commandDisplay(command_line, command_number=command_number,
                                    cursol="▶ ", line_end="\n", end="\n")
 
-    return 1  # 異常終了
+    return -1  # 異常終了
 
 
 if __name__ == '__main__':
