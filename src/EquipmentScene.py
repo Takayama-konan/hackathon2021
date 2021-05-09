@@ -10,19 +10,42 @@ import CommandManager
 def run():
     DrawDisplay.clear()  # 画面削除
 
+    # 装備情報取得
+    personal_data = []
+    with open("./data/save_personal.csv", "r", encoding="utf-8") as f:
+        for line in f:
+            personal_data.append(line.strip(
+                "\n").replace("\u3000", " ").split(","))
+
+    try:
+        equipment_shop_name = personal_data[1][1]
+    except IndexError:  # データが無いとき
+        equipment_shop_name = "所持お店なし"
+
+    # 所持お店情報取得
+    shop_data = []
+    with open("./data/save_shop.csv", "r", encoding="utf-8") as f:
+        for line in f:
+            shop_data.append(tuple(line.strip(
+                "\n").replace("\u3000", " ").split(",")))
+            shop_data = list(set(shop_data))  # 重複削除(実際はお店取得の際に重複を削除すべき)
+    shop_name_data = [idx[1] for idx in shop_data]
+    shop_dict = dict(zip(shop_name_data, shop_data))
+    # print(shop_dict)
+
     # 描画
     DrawDisplay.initialDiplay([
         "######### 編成 #########",
-        ""
+        "",
+        f"\t現在装備中のお店: {equipment_shop_name}",
+        "",
+        "===== 所持しているお店 =====",
+        "",
     ])
 
     command_number = 0
-    command_line = [
-        """お店編成""",
-        """""",
-        """""",
-        """もどる""",
-    ]
+
+    command_line = shop_name_data+["もどる"]
 
     DrawDisplay.commandDisplay(command_line, command_number=command_number,
                                cursol="▶ ", line_end="\n", end="\n")
@@ -34,21 +57,25 @@ def run():
 
         #コマンド操作#
         if key in CommandManager.ENTER:
-            print(command_number)
-            if command_number == 0:  # ステージ選択
-                pass
-            elif command_number == 1:  # 編成
-                pass
-            elif command_number == 2:  # ガチャ
-                pass
-            elif command_number == 3:  # ヘルプ
-                HelpScene.run()
-                DrawDisplay.clear()
+            equipment_shop_name = shop_name_data[command_number]  # 装備
+
+            # 装備情報登録
+            personal_data[1] = list(shop_dict[equipment_shop_name])
+            with open("./data/save_personal.csv", "w", encoding="utf-8") as f:
+                for idx in personal_data:
+                    f.write(",".join(idx)+"\n")
+            if command_number == len(command_line)-1:  # もどる
+                # print("return")
+                return
 
         # 描画
         DrawDisplay.initialDiplay([
-            "######### メインメニュー #########",
-            ""
+            "######### 編成 #########",
+            "",
+            f"\t現在装備中のお店: {equipment_shop_name}",
+            "",
+            "===== 所持しているお店 =====",
+            "",
         ])
 
         if key in CommandManager.UP:  # 上キー

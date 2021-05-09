@@ -7,6 +7,7 @@ import StageSelectScene
 import GachaScene
 import HelpScene
 import StaffScroll
+import EquipmentScene
 
 
 def run():
