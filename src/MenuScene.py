@@ -43,7 +43,7 @@ def run():
                 StageSelectScene.run()
                 DrawDisplay.clear()
             elif command_number == 1:  # 編成
-                pass
+                EquipmentScene.run()
             elif command_number == 2:  # ガチャ
                 GachaScene.run()
             elif command_number == 3:  # ヘルプ

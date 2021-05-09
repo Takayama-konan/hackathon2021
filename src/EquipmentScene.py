@@ -57,6 +57,10 @@ def run():
 
         #コマンド操作#
         if key in CommandManager.ENTER:
+            if command_number == len(command_line)-1:  # もどる
+                # print("return")
+                return
+
             equipment_shop_name = shop_name_data[command_number]  # 装備
 
             # 装備情報登録
@@ -64,9 +68,6 @@ def run():
             with open("./data/save_personal.csv", "w", encoding="utf-8") as f:
                 for idx in personal_data:
                     f.write(",".join(idx)+"\n")
-            if command_number == len(command_line)-1:  # もどる
-                # print("return")
-                return
 
         # 描画
         DrawDisplay.initialDiplay([
