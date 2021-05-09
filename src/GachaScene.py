@@ -53,7 +53,7 @@ def draw_gacha():
     return 0
 
 
-def getting_shop():
+def getting_shop(choice_number=1):
     """
     ガチャを引いている画面
     """
@@ -65,21 +65,29 @@ def getting_shop():
             shops.append(line.strip("\n").replace("\u3000", " ").split(","))
 
     # ガチャった飲食店
-    shop = random.choice(shops)
+    shop = random.sample(shops, choice_number)
+
+    # 飲食店情報をセーブ
+    with open("./data/save_shop.csv", "a", encoding="utf-8") as f:
+        for s in shop:
+            f.write(",".join(s)+"\n")
 
     # ガチャ演出
     draw_gacha()
 
     # ガチャ確定
-    shop_name = shop[1]  # ガチャった飲食店の名前
-    DrawDisplay.initialDiplay([f"{shop_name} をゲットしました!", "Enter キーを押してください"])
+    shop_name = [idx[1] for idx in shop]  # ガチャった飲食店の名前
+    for sp in shop_name:
+        DrawDisplay.initialDiplay(
+            [f"☆ {sp} をゲットしました!"])
+    DrawDisplay.initialDiplay(["Enter キーを押してください"])
 
     while True:
         key = CommandManager.CommandManager().pressKey()  # 入力キー取得
         DrawDisplay.clear()  # 画面を消す
 
-        DrawDisplay.initialDiplay(
-            [f"{shop_name} をゲットしました!", "Enter キーを押してください"])
+        # DrawDisplay.initialDiplay(
+        #     [f"{shop_name} をゲットしました!", "Enter キーを押してください"])
 
         #コマンド操作#
         if key in CommandManager.ENTER:
@@ -133,13 +141,13 @@ def gacha_description_run(gacha_name: str):
                     none_ticket_flag = True
                 else:  # お食事券があるとき
                     ticket_number -= 1
-                    getting_shop()
+                    getting_shop(choice_number=1)
             elif command_line[command_number] == "10+1回引く(お食事券を10枚消費します)":
                 if ticket_number-10 < 0:  # お食事券がないとき
                     none_ticket_flag = True
                 else:  # お食事券があるとき
                     ticket_number -= 10
-                    getting_shop()
+                    getting_shop(choice_number=11)
             elif command_line[command_number] == "もどる":
                 return 0
             else:
