@@ -5,6 +5,7 @@
 #ユーザ定義#
 import DrawDisplay
 import CommandManager
+import BattleInfo
 
 
 def run():
@@ -18,7 +19,8 @@ def run():
                 "\n").replace("\u3000", " ").split(","))
 
     try:
-        equipment_shop_name = personal_data[1][1]
+        battle_info = BattleInfo.shop_battle_info(personal_data[1])  # バトル情報取得
+        equipment_shop_name = battle_info["店名"]
     except IndexError:  # データが無いとき
         equipment_shop_name = "所持お店なし"
 
@@ -30,14 +32,16 @@ def run():
                 "\n").replace("\u3000", " ").split(",")))
             shop_data = list(set(shop_data))  # 重複削除(実際はお店取得の際に重複を削除すべき)
     shop_name_data = [idx[1] for idx in shop_data]
-    shop_dict = dict(zip(shop_name_data, shop_data))
-    # print(shop_dict)
+    shop_dict = dict(zip(shop_name_data, shop_data))  # データセーブ時用データ
 
     # 描画
     DrawDisplay.initialDiplay([
         "######### 編成 #########",
         "",
         f"\t現在装備中のお店: {equipment_shop_name}",
+        f"\t\tHP: {battle_info['HP']}",
+        f"\t\t技: {battle_info['技名']}",
+        f"\t\t攻撃力: {battle_info['攻撃力']}",
         "",
         "===== 所持しているお店 =====",
         "",
@@ -68,12 +72,18 @@ def run():
             with open("./data/save_personal.csv", "w", encoding="utf-8") as f:
                 for idx in personal_data:
                     f.write(",".join(idx)+"\n")
+            battle_info = BattleInfo.shop_battle_info(
+                personal_data[1])  # バトル情報取得
+            equipment_shop_name = battle_info["店名"]
 
         # 描画
         DrawDisplay.initialDiplay([
             "######### 編成 #########",
             "",
             f"\t現在装備中のお店: {equipment_shop_name}",
+            f"\t\tHP: {battle_info['HP']}",
+            f"\t\t技: {battle_info['技名']}",
+            f"\t\t攻撃力: {battle_info['攻撃力']}",
             "",
             "===== 所持しているお店 =====",
             "",
@@ -85,7 +95,7 @@ def run():
             command_number += 1
         elif key in CommandManager.ESC:
             print("Info: ESC終了!(MenuScene, run())")
-            return 0
+            exit(0)
 
         #コマンド#
         if command_number < 0:  # 一番上ならば一番下に
