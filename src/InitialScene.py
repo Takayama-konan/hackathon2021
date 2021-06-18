@@ -7,22 +7,23 @@ import MenuScene
 
 
 def run():
-    DrawDisplay.clear() #画面削除
-
-    # 描画
-    DrawDisplay.initialDiplay([
-        "####################################",
-        "######### HOT PEPPER WALK! #########",
-        "####################################",
-        "",
-        "         - PRESS ENTER KEY -"
-    ])
 
     key = ""
     while True:
+        DrawDisplay.clear()  # 画面削除
+
+        # 描画
+        DrawDisplay.initialDiplay([
+            "####################################",
+            "######### HOT PEPPER WALK! #########",
+            "####################################",
+            "",
+            "         - PRESS ENTER KEY -"
+        ])
+
         key = CommandManager.CommandManager().pressKey()  # 入力キー取得
         if key == "Enter":
-            print("OK")
+            # print("OK")
             ret = MenuScene.run()
             if ret == 0:  # ESC終了
                 break
@@ -34,4 +35,4 @@ def run():
 
 
 if __name__ == '__main__':
-    draw()
+    run()
