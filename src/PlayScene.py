@@ -106,25 +106,26 @@ class Walking(object):
 
     def walk(self, command):
 
-        x_, y_ = self.x, self.y
+        self.x_, self.y_ = self.x, self.y
 
         ##移動後代入##
         if command == self.up:
-            y_ = self.y-1
+            self.y_ = self.y-1
         elif command == self.down:
-            y_ = self.y+1
+            self.y_ = self.y+1
         elif command == self.left:
-            x_ = self.x-1
+            self.x_ = self.x-1
         elif command == self.right:
-            x_ = self.x+1
+            self.x_ = self.x+1
 
-        if (not self._waking_check_in_area(x_, y_) or  # 移動後がMAP外だったら
-                self._walking_forbidden(x_, y_)):  # 移動禁止ならば
-            x_, y_ = self.x, self.y  # 移動せず
-
-        ##移動の確定##
-        self.x = x_
-        self.y = y_
+        if (not self._waking_check_in_area(self.x_, self.y_) or  # 移動後がMAP外だったら
+                self._walking_forbidden(self.x_, self.y_)):  # 移動禁止ならば
+            # self.x_, self.y_ = self.x, self.y  # 移動せず
+            pass  # 移動せず
+        else:
+            ##移動##
+            self.x = self.x_
+            self.y = self.y_
 
         ##移動の表示##
         self.draw_walking()
@@ -172,6 +173,9 @@ def run(maze):
         else:
             DrawDisplay.initialDiplay(["無効なキーです"])
             continue
+
+        if (walking._walking_forbidden(walking.x_, walking.y_)):  # 移動できなければ
+            DrawDisplay.initialDiplay(["移動できません！"])
 
         # DrawDisplay.initialDiplay([f"x:{walking.x} , y:{walking.y}"]) #デバッグ:現在位置を表示
         DrawDisplay.initialDiplay(
