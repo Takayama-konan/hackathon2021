@@ -11,6 +11,10 @@ import BattleInfo
 def run():
     DrawDisplay.clear()  # 画面削除
 
+    #######
+    # お店情報取得開始
+    #######
+
     # 装備情報取得
     personal_data = []
     with open("./data/save_personal.csv", "r", encoding="utf-8") as f:
@@ -33,6 +37,10 @@ def run():
             shop_data = list(set(shop_data))  # 重複削除(実際はお店取得の際に重複を削除すべき)
     shop_name_data = [idx[1] for idx in shop_data]
     shop_dict = dict(zip(shop_name_data, shop_data))  # データセーブ時用データ
+
+    #######
+    # お店情報取得おわり
+    #######
 
     # 描画
     DrawDisplay.initialDiplay([
