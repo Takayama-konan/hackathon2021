@@ -38,7 +38,7 @@ def run():
             if command_line[command_number] == "Hot Pepper 草原":
                 maze = CreateMaze.CreateMaze(12, 12)  # 行列
                 maze.make_maze()  # 迷路生成
-                maze.print_maze()  # 迷路出力
+                # maze.print_maze()  # 迷路出力
                 maze.set_enemy(2, number=10, path_index=0)  # 敵番号2で10体配置
                 maze.set_enemy(3, number=30, path_index=0)  # 草30配置
                 maze.map_index = {0: "床", 1: "壁", 2: "敵", 3: "草"}  # MAPインデクス定義
@@ -46,9 +46,9 @@ def run():
             elif command_line[command_number] == "Hot Pepper 洞窟":
                 maze = CreateMaze.CreateMaze(12, 40)  # 行列
                 maze.make_maze()  # 迷路生成
-                maze.print_maze()  # 迷路出力
+                # maze.print_maze()  # 迷路出力
                 maze.set_enemy(2, number=40, path_index=0)  # 敵番号2で10体配置
-                maze.set_enemy(3, number=80, path_index=0)  # 
+                maze.set_enemy(3, number=80, path_index=0)  #
                 maze.map_index = {0: "床", 1: "壁", 2: "敵", 3: "石"}  # MAPインデクス定義
                 PlayScene.run(maze=maze)  # 迷路作成オブジェクトを引数に
             # elif command_line[command_number] == "Hot Pepper 大海原":
@@ -56,7 +56,7 @@ def run():
             #     maze.make_maze()  # 迷路生成
             #     maze.print_maze()  # 迷路出力
             #     maze.set_enemy(2, number=100, path_index=0)  # 敵番号2で10体配置
-            #     maze.set_enemy(3, number=100, path_index=0)  # 
+            #     maze.set_enemy(3, number=100, path_index=0)  #
             #     maze.map_index = {0: "海上", 1: "壁",
             #                       2: "敵", 3: "中ボス"}  # MAPインデクス定義
             #     PlayScene.run(maze=maze)  # 迷路作成オブジェクトを引数に
