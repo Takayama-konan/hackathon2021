@@ -1,6 +1,8 @@
 # 実際にプレイするダンジョンの画面
 import CommandManager
 import DrawDisplay
+import BattleScene
+import BattleInfo
 
 
 class Walking(object):
@@ -173,6 +175,35 @@ def run(maze):
         else:
             DrawDisplay.initialDiplay(["無効なキーです"])
             continue
+
+        # 敵
+        if walking.now_pos_index in [2]:
+            # 装備情報取得
+            personal_data = []
+            with open("./data/save_personal.csv", "r", encoding="utf-8") as f:
+                for line in f:
+                    personal_data.append(line.strip(
+                        "\n").replace("\u3000", " ").split(","))
+            player_info = BattleInfo.shop_battle_info(
+                personal_data[1])  # バトル情報取得
+
+            # 敵情報取得
+            enemy_data = []
+            with open("./data/shopinfo.csv", "r", encoding="utf-8") as f:
+                for line in f:
+                    enemy_data.append(line.strip(
+                        "\n").replace("\u3000", " ").split(","))
+            enemy_info = BattleInfo.shop_battle_info(
+                enemy_data[1])
+
+            # バトルシーンへ移動
+            BattleScene.run(player_info["店名"],
+                            player_info["HP"], player_info["技名"], enemy_info["店名"], enemy_info["HP"])
+
+            command = ""
+            DrawDisplay.clear()
+
+            walking.walk(command)
 
         if (walking._walking_forbidden(walking.x_, walking.y_)):  # 移動できなければ
             DrawDisplay.initialDiplay(["移動できません！"])

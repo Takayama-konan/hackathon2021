@@ -12,17 +12,24 @@ import CommandManager
 import random
 
 
-def run(my_name, my_hp, waza, enemy_hp, enemy_name):
+def run(my_name, my_hp, waza: list, enemy_name, enemy_hp):
     while enemy_hp > 0:
         DrawDisplay.clear()  # 画面削除
 
         # 描画
-        DrawDisplay.initialDiplay([
+        display_info = [
+            "== 情報 ==",
+            "{}".format(enemy_name),
+            "HP: {}".format(enemy_hp),
+            "",
             "-----------------",
             "{}".format(my_name),
             "HP : {}".format(my_hp),
             "-----------------",
-        ])
+        ]
+
+        # 描画
+        DrawDisplay.initialDiplay(display_info)
 
         command_number = 0
         command_line = [
@@ -39,12 +46,7 @@ def run(my_name, my_hp, waza, enemy_hp, enemy_name):
             DrawDisplay.clear()  # 画面を消す
 
             # 描画
-            DrawDisplay.initialDiplay([
-                "-----------------",
-                "{}".format(my_name),
-                "HP : {}".format(my_hp),
-                "-----------------",
-            ])
+            DrawDisplay.initialDiplay(display_info)
 
             #コマンド操作#
             if key in CommandManager.ENTER:
@@ -56,7 +58,7 @@ def run(my_name, my_hp, waza, enemy_hp, enemy_name):
                 command_number += 1
             elif key in CommandManager.ESC:
                 print("Info: ESC終了!(MenuScene, run())")
-                return 0
+                exit()
 
             #コマンド#
             if command_number < 0:  # 一番上ならば一番下に
@@ -76,18 +78,10 @@ def run(my_name, my_hp, waza, enemy_hp, enemy_name):
 
         if command_number == 0:  # 戦う処理
             DrawDisplay.clear()
-            DrawDisplay.initialDiplay([
-                "-----------------",
-                "{}".format(my_name),
-                "HP : {}".format(my_hp),
-                "-----------------",
-                "どの技でたたかう？",
-            ])
+            DrawDisplay.initialDiplay(display_info)
 
-            command_line = [  # 技選択(一番上に技の変数、HPなど置いてある)
-                """{}""".format(waza[0]),
-                """{}""".format(waza[1]),
-            ]
+            # 技選択(一番上に技の変数、HPなど置いてある)
+            command_line = [*waza]
 
             DrawDisplay.commandDisplay(command_line, command_number=command_number,
                                        cursol="▶ ", line_end="\n", end="\n")
@@ -97,17 +91,10 @@ def run(my_name, my_hp, waza, enemy_hp, enemy_name):
                 key = CommandManager.CommandManager().pressKey()  # 入力キー取得
                 DrawDisplay.clear()  # 画面を消す
 
-                DrawDisplay.initialDiplay([
-                    "-----------------",
-                    "{}".format(my_name),
-                    "HP : {}".format(my_hp),
-                    "-----------------",
-                    "どの技でたたかう？",
-                ])
+                DrawDisplay.initialDiplay(display_info)
 
                 #コマンド操作#
                 if key in CommandManager.ENTER:
-                    print("OK")
                     break
                 if key in CommandManager.UP:  # 上キー
                     command_number -= 1
@@ -155,4 +142,4 @@ if __name__ == '__main__':
     waza = ["ハイドロポンプ", "たいあたり"]
     enemy_hp = 600
     enemy_name = "ゆめのくに"
-    run(my_name, my_hp, waza, enemy_hp, enemy_name)
+    run(my_name, my_hp, waza, enemy_name, enemy_hp)
